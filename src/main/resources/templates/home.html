@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Hacking with Spring Boot - Getting Started</title>
 </head>
 <body>
@@ -24,7 +24,7 @@
         <td th:text="${item.price}"></td>
         <td>
             <form method="post" th:action="@{'/add/' + ${item.id}}">
-                <input type="submit" value="Add to Cart" />
+                <input type="submit" value="Add to Cart"/>
             </form>
         </td>
         <td>

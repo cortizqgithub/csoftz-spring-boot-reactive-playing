@@ -7,10 +7,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class Dish {
 
-  private String description;
-  private boolean delivered = false;
+    private String description;
+    private boolean delivered = false;
 
-  public Dish(String description) {
-    this.description = description;
-  }
+    public Dish(String description) {
+        this.description = description;
+    }
 }

@@ -11,8 +11,15 @@ import com.csoftz.reactive.playing.repository.ItemRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * aba
+ *
+ * @author Carlos Adolfo Ortiz Q.
+ */
 @Service
 public class CartService {
+    private static final int JOSHUA_AGE = 10;
+
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
 
@@ -29,6 +36,13 @@ public class CartService {
         return this.cartRepository.findById(id).defaultIfEmpty(new Cart(id));
     }
 
+    /**
+     * This is the cart.
+     *
+     * @param cartId Identifier of the Cart to add the item to.
+     * @param id     Item identifier to use.
+     * @return A cart with items.
+     */
     public Mono<Cart> addToCart(String cartId, String id) {
         return this.cartRepository
             .findById(cartId)
