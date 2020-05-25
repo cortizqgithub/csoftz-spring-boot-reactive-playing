@@ -8,29 +8,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.reactive.result.view.Rendering;
 
 import com.csoftz.reactive.playing.service.CartService;
+import com.csoftz.reactive.playing.service.InventoryService;
 
 import reactor.core.publisher.Mono;
 
 @Controller
 public class HomeController {
 
-    private final CartService cartService;
+    private static final String CART_ID = "My Cart";
 
-    public HomeController(CartService cartService) {
-        this.cartService = cartService;
+    private InventoryService inventoryService;
+
+    public HomeController(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
     }
 
     @GetMapping
     public Mono<Rendering> home(Model model) {
         return Mono.just(
             Rendering.view("home.html")
-                .modelAttribute("items", this.cartService.findAll().doOnNext(System.out::println))
-                .modelAttribute("cart", this.cartService.findById("My Cart"))
+                .modelAttribute("items", this.inventoryService.getInventory())
+                .modelAttribute("cart", this.inventoryService.getCart(CART_ID))
                 .build());
     }
 
     @PostMapping("/add/{id}")
     public Mono<String> addToCart(@PathVariable String id) {
-        return this.cartService.addToCart("My Cart", id).thenReturn("redirect:/");
+        return this.inventoryService
+            .addItemToCart(CART_ID, id)
+            .thenReturn("redirect:/");
     }
 }

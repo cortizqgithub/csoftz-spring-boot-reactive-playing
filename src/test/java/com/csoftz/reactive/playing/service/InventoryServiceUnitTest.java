@@ -3,6 +3,8 @@ package com.csoftz.reactive.playing.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -49,8 +51,8 @@ class InventoryServiceUnitTest {
         // Define mock interactions provided
         // by your collaborators
         when(cartRepository.findById(anyString())).thenReturn(Mono.empty());
-        when(itemRepository.findById(anyString())).thenReturn(Mono.just(sampleItem));
         when(cartRepository.save(any(Cart.class))).thenReturn(Mono.just(sampleCart));
+        when(itemRepository.findById(anyString())).thenReturn(Mono.just(sampleItem));
 
         inventoryService = new InventoryService(itemRepository, cartRepository);
     }
@@ -70,8 +72,32 @@ class InventoryServiceUnitTest {
                         .extracting(CartItem::getItem)
                         .containsExactly(new Item(ITEM_ID, ITEM_NAME, ITEM_DESCRIPTION, ITEM_PRICE));
 
+                    verify(cartRepository, times(1)).findById(anyString());
+                    verify(cartRepository, times(1)).save(any(Cart.class));
+                    verify(itemRepository, times(1)).findById(anyString());
+
                     return true;
                 })
+            .verifyComplete();
+    }
+
+    @Test
+    void givenItemSavedInEmptyCartShouldProduceOneCartItemAlternate() {
+        StepVerifier.create(
+            inventoryService.addItemToCart(CART_ID, ITEM_ID))
+            .expectNextMatches(cart -> {
+                assertThat(cart.getCartItems()).extracting(CartItem::getQuantity)
+                    .containsExactlyInAnyOrder(1);
+
+                assertThat(cart.getCartItems()).extracting(CartItem::getItem)
+                    .containsExactly(new Item(ITEM_ID, ITEM_NAME, ITEM_DESCRIPTION, ITEM_PRICE));
+
+                verify(cartRepository, times(1)).findById(anyString());
+                verify(cartRepository, times(1)).save(any(Cart.class));
+                verify(itemRepository, times(1)).findById(anyString());
+                
+                return true;
+            })
             .verifyComplete();
     }
 }

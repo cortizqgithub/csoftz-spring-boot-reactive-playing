@@ -18,6 +18,11 @@ public class Item {
     private String description;
     private double price;
 
+    public Item(String name, String description, double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
     public Item(String name, double price) {
         this.name = name;
         this.price = price;

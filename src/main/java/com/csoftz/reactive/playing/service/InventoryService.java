@@ -2,9 +2,11 @@ package com.csoftz.reactive.playing.service;
 
 import com.csoftz.reactive.playing.domain.commerce.Cart;
 import com.csoftz.reactive.playing.domain.commerce.CartItem;
+import com.csoftz.reactive.playing.domain.commerce.Item;
 import com.csoftz.reactive.playing.repository.CartRepository;
 import com.csoftz.reactive.playing.repository.ItemRepository;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class InventoryService {
@@ -36,5 +38,13 @@ public class InventoryService {
                             .doOnNext(cartItem -> cart.getCartItems().add(cartItem))
                             .map(cartItem -> cart)))
             .flatMap(this.cartRepository::save);
+    }
+
+    public Flux<Item> getInventory() {
+        return this.itemRepository.findAll();
+    }
+
+    public Mono<Cart> getCart(String cartId) {
+        return this.cartRepository.findById(cartId);
     }
 }
