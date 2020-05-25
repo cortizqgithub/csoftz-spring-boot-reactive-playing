@@ -1,0 +1,15 @@
+= spring-boot-reactive-playing
+
+V1.0.0-20200524
+
+<groupId>com.csoftz</groupId> +
+<artifactId>spring-boot-reactive-playing</artifactId> +
+<version>1.0.0.RELEASE</version> +
+<name>spring-boot-reactive-playing</name> +
+
+https://github.com/coveooss/fmt-maven-plugin
+
+Token codevio
+c09b0db1-8715-4935-a747-47a784417920
+
+bash <(curl -s https://codecov.io/bash) -t c09b0db1-8715-4935-a747-47a784417920
