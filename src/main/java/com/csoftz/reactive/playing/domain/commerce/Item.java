@@ -23,6 +23,7 @@ public class Item {
         this.description = description;
         this.price = price;
     }
+
     public Item(String name, double price) {
         this.name = name;
         this.price = price;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.reactive.result.view.Rendering;
 
-import com.csoftz.reactive.playing.service.CartService;
+import com.csoftz.reactive.playing.domain.commerce.Cart;
 import com.csoftz.reactive.playing.service.InventoryService;
 
 import reactor.core.publisher.Mono;
@@ -17,7 +17,7 @@ public class HomeController {
 
     private static final String CART_ID = "My Cart";
 
-    private InventoryService inventoryService;
+    private final InventoryService inventoryService;
 
     public HomeController(InventoryService inventoryService) {
         this.inventoryService = inventoryService;
@@ -28,7 +28,9 @@ public class HomeController {
         return Mono.just(
             Rendering.view("home.html")
                 .modelAttribute("items", this.inventoryService.getInventory())
-                .modelAttribute("cart", this.inventoryService.getCart(CART_ID))
+                .modelAttribute("cart",
+                    this.inventoryService.getCart(CART_ID)
+                        .defaultIfEmpty(new Cart(CART_ID)))
                 .build());
     }
 

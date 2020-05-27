@@ -1,5 +1,7 @@
 package com.csoftz.reactive.playing.service;
 
+import org.springframework.stereotype.Service;
+
 import com.csoftz.reactive.playing.domain.commerce.Cart;
 import com.csoftz.reactive.playing.domain.commerce.CartItem;
 import com.csoftz.reactive.playing.domain.commerce.Item;
@@ -9,6 +11,7 @@ import com.csoftz.reactive.playing.repository.ItemRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 public class InventoryService {
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
