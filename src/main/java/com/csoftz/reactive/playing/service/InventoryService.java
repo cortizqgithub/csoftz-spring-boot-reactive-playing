@@ -25,21 +25,24 @@ public class InventoryService {
         return this.cartRepository
             .findById(cartId)
             .defaultIfEmpty(new Cart(cartId))
-            .flatMap(cart -> cart.getCartItems().stream()
-                .filter(cartItem -> cartItem.getItem().getId().equals(itemId))
-                .findAny()
-                .map(
-                    cartItem -> {
-                        cartItem.increment();
-                        return Mono.just(cart);
-                    })
-                .orElseGet(
-                    () ->
-                        this.itemRepository
-                            .findById(itemId)
-                            .map(CartItem::new)
-                            .doOnNext(cartItem -> cart.getCartItems().add(cartItem))
-                            .map(cartItem -> cart)))
+            .flatMap(
+                cart ->
+                    cart.getCartItems()
+                        .stream()
+                        .filter(cartItem -> cartItem.getItem().getId().equals(itemId))
+                        .findAny()
+                        .map(
+                            cartItem -> {
+                                cartItem.increment();
+                                return Mono.just(cart);
+                            })
+                        .orElseGet(
+                            () ->
+                                this.itemRepository
+                                    .findById(itemId)
+                                    .map(CartItem::new)
+                                    .doOnNext(cartItem -> cart.getCartItems().add(cartItem))
+                                    .map(cartItem -> cart)))
             .flatMap(this.cartRepository::save);
     }
 

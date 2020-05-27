@@ -49,7 +49,8 @@ public class CartService {
             .defaultIfEmpty(new Cart(cartId))
             .flatMap(
                 cart ->
-                    cart.getCartItems().stream()
+                    cart.getCartItems()
+                        .stream()
                         .filter(cartItem -> cartItem.getItem().getId().equals(id))
                         .findAny()
                         .map(
