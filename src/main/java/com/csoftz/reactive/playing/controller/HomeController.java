@@ -27,6 +27,7 @@ public class HomeController {
     public Mono<Rendering> home(Model model) {
         return Mono.just(
             Rendering.view("home.html")
+                .modelAttribute("info", "THE INFO")
                 .modelAttribute("items", this.inventoryService.getInventory())
                 .modelAttribute("cart",
                     this.inventoryService.getCart(CART_ID)
