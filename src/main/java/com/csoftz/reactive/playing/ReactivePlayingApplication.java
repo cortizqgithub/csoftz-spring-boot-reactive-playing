@@ -32,7 +32,7 @@ public class ReactivePlayingApplication {
         return new InMemoryHttpTraceRepository();
     }
 
-    @Bean
+    //@Bean
     HttpTraceRepository springDataTraceRepository(HttpTraceWrapperRepository repository) {
         return new SpringDataHttpTraceRepository(repository);
     }
@@ -65,7 +65,7 @@ public class ReactivePlayingApplication {
             }
         };
 
-    @Bean
+    //@Bean
     public MappingMongoConverter mappingMongoConverter(MongoMappingContext context) {
 
         MappingMongoConverter mappingConverter =

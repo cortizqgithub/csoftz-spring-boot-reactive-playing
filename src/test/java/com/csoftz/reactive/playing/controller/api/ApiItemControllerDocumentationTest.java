@@ -8,6 +8,7 @@ import static org.springframework.restdocs.webtestclient.WebTestClientRestDocume
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,8 +28,7 @@ public class ApiItemControllerDocumentationTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @MockBean
-    InventoryService service;
+
 
     @MockBean
     ItemRepository repository;
