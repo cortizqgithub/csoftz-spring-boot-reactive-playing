@@ -10,8 +10,10 @@ import org.springframework.web.reactive.result.view.Rendering;
 import com.csoftz.reactive.playing.domain.commerce.Cart;
 import com.csoftz.reactive.playing.service.InventoryService;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Controller
 public class HomeController {
 
@@ -25,6 +27,7 @@ public class HomeController {
 
     @GetMapping
     public Mono<Rendering> home(Model model) {
+        log.trace("THIS IS HOME entry point!");
         return Mono.just(
             Rendering.view("home.html")
                 .modelAttribute("info", "THE INFO")
@@ -32,11 +35,13 @@ public class HomeController {
                 .modelAttribute("cart",
                     this.inventoryService.getCart(CART_ID)
                         .defaultIfEmpty(new Cart(CART_ID)))
-                .build());
+                .build())
+            .log();
     }
 
     @PostMapping("/add/{id}")
     public Mono<String> addToCart(@PathVariable String id) {
+        log.trace("THIS IS HOME entry point! Adding an item {}", id);
         return this.inventoryService
             .addItemToCart(CART_ID, id)
             .thenReturn("redirect:/");
