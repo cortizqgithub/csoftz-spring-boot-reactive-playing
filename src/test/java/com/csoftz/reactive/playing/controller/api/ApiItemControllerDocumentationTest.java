@@ -28,8 +28,6 @@ public class ApiItemControllerDocumentationTest {
     @Autowired
     private WebTestClient webTestClient;
 
-
-
     @MockBean
     ItemRepository repository;
 
