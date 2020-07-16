@@ -37,57 +37,67 @@ public class HypermediaItemControllerDocumentationTest {
     @Test
     void findingAllItems() {
         when(repository.findAll())
-            .thenReturn(Flux.just(
-                new Item("Alf alarm clock",
-                    "nothing I really need", 19.99)));
+            .thenReturn(Flux.just(new Item("Alf alarm clock", "nothing I really need", 19.99)));
         when(repository.findById((String) null))
-            .thenReturn(Mono.just(
-                new Item("item-1", "Alf alarm clock",
-                    "nothing I really need", 19.99)));
+            .thenReturn(
+                Mono.just(new Item("item-1", "Alf alarm clock", "nothing I really need", 19.99)));
 
-        this.webTestClient.get().uri("/hypermedia/items")
+        this.webTestClient
+            .get()
+            .uri("/hypermedia/items")
             .exchange()
             .expectStatus()
             .isOk()
             .expectBody()
-            .consumeWith(document("findAll-hypermedia",
-                preprocessResponse(prettyPrint())));
+            .consumeWith(document("findAll-hypermedia", preprocessResponse(prettyPrint())));
     }
 
-    // @Test
+    //@Test
     void postNewItem() {
-        this.webTestClient.post().uri("/hypermedia/items")
-            .body(Mono.just(
-                new Item("item-1", "Alf alarm clock",
-                    "nothing I really need", 19.99)),
+        this.webTestClient
+            .post()
+            .uri("/hypermedia/items")
+            .body(
+                Mono.just(new Item("item-1", "Alf alarm clock", "nothing I really need", 19.99)),
                 Item.class)
             .exchange()
-            .expectStatus().isCreated()
-            .expectBody().isEmpty();
+            .expectStatus()
+            .isCreated()
+            .expectBody()
+            .isEmpty();
     }
 
     @Test
     void findOneItem() {
-        when(repository.findById("item-1")).thenReturn(Mono.just(
-            new Item("item-1", "Alf alarm clock", "nothing I really need", 19.99)));
+        when(repository.findById("item-1"))
+            .thenReturn(
+                Mono.just(new Item("item-1", "Alf alarm clock", "nothing I really need", 19.99)));
 
-        this.webTestClient.get().uri("/hypermedia/items/item-1")
+        this.webTestClient
+            .get()
+            .uri("/hypermedia/items/item-1")
             .exchange()
-            .expectStatus().isOk()
+            .expectStatus()
+            .isOk()
             .expectBody()
-            .consumeWith(document("findOne-hypermedia", preprocessResponse(prettyPrint()),
-                links(
-                    linkWithRel("self").description("Canonical link to this `Item`"),
-                    linkWithRel("item").description("Link back to the aggregate root"))));
+            .consumeWith(
+                document(
+                    "findOne-hypermedia",
+                    preprocessResponse(prettyPrint()),
+                    links(
+                        linkWithRel("self").description("Canonical link to this `Item`"),
+                        linkWithRel("item").description("Link back to the aggregate root"))));
     }
 
     @Test
     void findProfile() {
-        this.webTestClient.get().uri("/hypermedia/items/profile")
+        this.webTestClient
+            .get()
+            .uri("/hypermedia/items/profile")
             .exchange()
-            .expectStatus().isOk()
+            .expectStatus()
+            .isOk()
             .expectBody()
-            .consumeWith(document("profile",
-                preprocessResponse(prettyPrint())));
+            .consumeWith(document("profile", preprocessResponse(prettyPrint())));
     }
 }
