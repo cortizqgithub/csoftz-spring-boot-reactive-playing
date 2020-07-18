@@ -25,6 +25,8 @@ import reactor.test.StepVerifier;
 @ContextConfiguration
 public class RabbitTest {
 
+    private static final String AMPQ_ITEMS_URI = "/api/v1/amqp/items";
+
     @Container
     private static RabbitMQContainer container = new RabbitMQContainer();
 
@@ -44,7 +46,7 @@ public class RabbitTest {
     void verifyMessagingThroughAmqp() throws InterruptedException {
         this.webTestClient
             .post()
-            .uri("/items")
+            .uri(AMPQ_ITEMS_URI)
             .bodyValue(new Item("Alf alarm clock", "nothing important", 19.99))
             .exchange()
             .expectStatus()
@@ -55,7 +57,7 @@ public class RabbitTest {
 
         this.webTestClient
             .post()
-            .uri("/items")
+            .uri(AMPQ_ITEMS_URI)
             .bodyValue(new Item("Smurf TV tray", "nothing important", 29.99))
             .exchange()
             .expectStatus()
