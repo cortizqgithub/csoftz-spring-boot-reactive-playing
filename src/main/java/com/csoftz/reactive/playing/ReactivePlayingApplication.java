@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.bson.Document;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
@@ -75,6 +76,11 @@ public class ReactivePlayingApplication {
             new MongoCustomConversions(Collections.singletonList(CONVERTER)));
 
         return mappingConverter;
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
     public static void main(String[] args) {

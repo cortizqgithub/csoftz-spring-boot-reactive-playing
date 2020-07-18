@@ -1,7 +1,5 @@
 package com.csoftz.reactive.playing.domain.commerce;
 
-import java.io.Serializable;
-
 import org.springframework.data.annotation.Id;
 
 import lombok.AccessLevel;
@@ -12,9 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class Item implements Serializable {
-
-    private static final long serialVersionUID = -2689503644260171344L;
+public class Item {
 
     @Id
     private String id;
